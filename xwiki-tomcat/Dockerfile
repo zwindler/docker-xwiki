@@ -19,12 +19,9 @@ RUN curl -L \
 
 COPY hibernate.cfg.xml webapps/xwiki/WEB-INF/
 COPY xwiki.cfg webapps/xwiki/WEB-INF/
-COPY catalina.properties.append catalina.properties.append
 COPY setenv.sh bin/setenv.sh
 
-RUN cat catalina.properties.append >> conf/catalina.properties && \
-    rm catalina.properties.append && \
-    sed -i "s/redirectPort=\"8443\" /redirectPort=\"8443\" URIEncoding=\"UTF-8\" /" conf/server.xml
+RUN sed -i "s/redirectPort=\"8443\" /redirectPort=\"8443\" URIEncoding=\"UTF-8\" /" conf/server.xml
 
 COPY xwiki-tomcat-entrypoint.sh /
 
