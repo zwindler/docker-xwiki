@@ -6,9 +6,14 @@ ENV POSTGRES_DB=xwiki
 ENV POSTGRES_USER=xwiki
 ENV POSTGRES_PASSWORD=xwiki
 
+COPY setenv.sh bin/setenv.sh
+COPY xwiki-tomcat-entrypoint.sh /
+
+RUN sed -i "s/redirectPort=\"8443\" /redirectPort=\"8443\" URIEncoding=\"UTF-8\" /" conf/server.xml
+
 RUN rm -rf webapps/* && \
     curl -L \
-      'http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.2.1.war' \
+      'http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.4.1.war' \
        -o xwiki.war && \
     unzip -d webapps/xwiki xwiki.war && \
     rm -f xwiki.war
@@ -19,10 +24,5 @@ RUN curl -L \
 
 COPY hibernate.cfg.xml webapps/xwiki/WEB-INF/
 COPY xwiki.cfg webapps/xwiki/WEB-INF/
-COPY setenv.sh bin/setenv.sh
-
-RUN sed -i "s/redirectPort=\"8443\" /redirectPort=\"8443\" URIEncoding=\"UTF-8\" /" conf/server.xml
-
-COPY xwiki-tomcat-entrypoint.sh /
 
 ENTRYPOINT ["/xwiki-tomcat-entrypoint.sh"]
