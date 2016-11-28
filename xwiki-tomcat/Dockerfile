@@ -20,12 +20,9 @@ RUN rm -rf webapps/* && \
 
 RUN curl -L \
       'https://jdbc.postgresql.org/download/postgresql-9.4.1208.jar' \
-      -o 'webapps/xwiki/WEB-INF/lib/postgresql-9.4-1208.jdbc42.jar' && \
-    echo "environment.permanentDirectory=/usr/local/tomcat/work/xwiki" >> webapps/xwiki/WEB-INF/xwiki.properties
+      -o 'webapps/xwiki/WEB-INF/lib/postgresql-9.4-1208.jdbc42.jar'
 
 COPY hibernate.cfg.xml webapps/xwiki/WEB-INF/
 COPY xwiki.cfg webapps/xwiki/WEB-INF/
-
-VOLUME /usr/local/tomcat/work/xwiki
 
 ENTRYPOINT ["/xwiki-tomcat-entrypoint.sh"]
