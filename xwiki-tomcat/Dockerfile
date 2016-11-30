@@ -16,6 +16,8 @@ RUN rm -rf webapps/* && \
       'http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.4.1.war' \
        -o xwiki.war && \
     unzip -d webapps/xwiki xwiki.war && \
+    sed "s/<id>org.xwiki.enterprise:xwiki-enterprise-web/<id>org.xwiki.enterprise:xwiki-enterprise-docker-zwindler/" < webapps/xwiki/META-INF/extension.xed > webapps/xwiki/META-INF/extension2.xed && \
+    mv webapps/xwiki/META-INF/extension2.xed webapps/xwiki/META-INF/extension.xed && \
     rm -f xwiki.war
 
 RUN curl -L \
