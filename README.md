@@ -2,7 +2,7 @@
 
 The goal of this project is to provide a customized tomcat8 container for Xwiki (KMDB) in Docker containers
 
-[![](https://images.microbadger.com/badges/version/zwindler/xwiki-tomcat.svg)](http://microbadger.com/images/zwindler/xwiki-tomcat) [![](https://images.microbadger.com/badges/image/zwindler/xwiki-tomcat.svg)](http://microbadger.com/images/zwindler/xwiki-tomcat)
+[![](https://images.microbadger.com/badges/version/zwindler/xwiki-tomcat8.svg)](http://microbadger.com/images/zwindler/xwiki-tomcat8) [![](https://images.microbadger.com/badges/image/zwindler/xwiki-tomcat8.svg)](http://microbadger.com/images/zwindler/xwiki-tomcat8)
 
 
 ## Prerequisite 
