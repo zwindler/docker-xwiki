@@ -23,7 +23,7 @@ To install, you have two solutions
 
 #### Using Docker only
 
-  * docker build -t zwindler/xwiki-tomcat:latest . #If you get it fron the source
+  * (optional) docker build -t zwindler/xwiki-tomcat8:latest . #Only if you get it from source
   * docker network create -d bridge xwiki-nw 
   * docker run --net=xwiki-nw -itd --name xwiki-postgres -e POSTGRES_DB=xwiki -e POSTGRES_USER=xwiki -e POSTGRES_PASSWORD=xwiki postgres
   * docker run --net=xwiki-nw -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat8
