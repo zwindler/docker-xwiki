@@ -2,7 +2,8 @@ FROM tomcat:8-jre8
 MAINTAINER Denis GERMAIN <dt.germain@gmail.com> 
 ENV POSTGRES_INSTANCE=xwiki-pgsql POSTGRES_PORT=5432 /
     POSTGRES_DB=xwiki POSTGRES_USER=xwiki /
-    POSTGRES_PASSWORD=xwiki XWIKI_VERSION=9.0
+    POSTGRES_PASSWORD=xwiki XWIKI_VERSION=9.0 /
+    PGSQL_JDBC_VERSION=postgresql-9.4.1212
 
 COPY setenv.sh bin/setenv.sh
 COPY xwiki-tomcat-entrypoint.sh /
@@ -17,8 +18,8 @@ RUN rm -rf webapps/* && \
     rm -f xwiki.war
 
 RUN curl -L \
-      'https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar' \
-      -o 'webapps/xwiki/WEB-INF/lib/postgresql-9.4-1212.jdbc42.jar' && \
+      'https://jdbc.postgresql.org/download/${PGSQL_JDBC_VERSION}.jar' \
+      -o 'webapps/xwiki/WEB-INF/lib/${PGSQL_JDBC_VERSION}.jar' && \
     echo "environment.permanentDirectory=/usr/local/tomcat/work/xwiki" >> webapps/xwiki/WEB-INF/xwiki.properties
 
 COPY hibernate.cfg.xml webapps/xwiki/WEB-INF/
