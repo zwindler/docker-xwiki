@@ -32,7 +32,7 @@ To install, you have two solutions
 						
   * docker-compose up -d
 	
-## Test
+## Test it
 
 URL : http://[serveur]:[port]/xwiki
 

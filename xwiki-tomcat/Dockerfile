@@ -1,10 +1,8 @@
 FROM tomcat:8-jre8
 MAINTAINER Denis GERMAIN <dt.germain@gmail.com> 
-ENV POSTGRES_INSTANCE=xwiki-pgsql
-ENV POSTGRES_PORT=5432
-ENV POSTGRES_DB=xwiki
-ENV POSTGRES_USER=xwiki
-ENV POSTGRES_PASSWORD=xwiki
+ENV POSTGRES_INSTANCE=xwiki-pgsql POSTGRES_PORT=5432 /
+    POSTGRES_DB=xwiki POSTGRES_USER=xwiki /
+    POSTGRES_PASSWORD=xwiki XWIKI_VERSION=9.0
 
 COPY setenv.sh bin/setenv.sh
 COPY xwiki-tomcat-entrypoint.sh /
@@ -13,11 +11,9 @@ RUN sed -i "s/redirectPort=\"8443\" /redirectPort=\"8443\" URIEncoding=\"UTF-8\"
 
 RUN rm -rf webapps/* && \
     curl -L \
-      'http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-9.0.war' \
+      'http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-${XWIKI_VERSION}.war' \
        -o xwiki.war && \
     unzip -d webapps/xwiki xwiki.war && \
-    sed "s/<id>org.xwiki.enterprise:xwiki-enterprise-web/<id>org.xwiki.enterprise:xwiki-enterprise-docker-zwindler/" < webapps/xwiki/META-INF/extension.xed > webapps/xwiki/META-INF/extension2.xed && \
-    mv webapps/xwiki/META-INF/extension2.xed webapps/xwiki/META-INF/extension.xed && \
     rm -f xwiki.war
 
 RUN curl -L \
