@@ -14,16 +14,16 @@ RUN rm -rf webapps/* && \
     curl -L \
       "http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-${XWIKI_VERSION}.war" \
        -o xwiki.war && \
-    unzip -d webapps/xwiki xwiki.war && \
+    unzip -d webapps/ROOT xwiki.war && \
     rm -f xwiki.war
 
 RUN curl -L \
       "https://jdbc.postgresql.org/download/${PGSQL_JDBC_VERSION}.jar" \
-      -o "webapps/xwiki/WEB-INF/lib/${PGSQL_JDBC_VERSION}.jar" && \
-    echo "environment.permanentDirectory=/usr/local/tomcat/work/xwiki" >> webapps/xwiki/WEB-INF/xwiki.properties
+      -o "webapps/ROOT/WEB-INF/lib/${PGSQL_JDBC_VERSION}.jar" && \
+    echo "environment.permanentDirectory=/usr/local/tomcat/work/xwiki" >> webapps/ROOT/WEB-INF/xwiki.properties
 
-COPY hibernate.cfg.xml webapps/xwiki/WEB-INF/
-COPY xwiki.cfg webapps/xwiki/WEB-INF/
+COPY hibernate.cfg.xml webapps/ROOT/WEB-INF/
+COPY xwiki.cfg webapps/ROOT/WEB-INF/
 
 VOLUME /usr/local/tomcat/work/xwiki
 
