@@ -1,7 +1,7 @@
 version: '2'
 
 networks:
-  xwiki-nw:
+  xwiki-bridge:
     driver: bridge
 services:
   postgresql:
@@ -12,14 +12,14 @@ services:
       POSTGRES_PASSWORD: xwikipwd
       POSTGRES_DB: xwiki
     networks:
-      - xwiki-nw
+      - xwiki-bridge
     stdin_open: true
     tty: true
     restart: always
   xwiki-tomcat:
     build: ./xwiki-tomcat
     image: xwiki-tomcat
-    container_name: xwiki-tomcat
+    container_name: xwiki-app
     environment:
       POSTGRES_INSTANCE: xwiki-pgsql
       POSTGRES_USER: xwikidb
@@ -28,4 +28,4 @@ services:
     ports:
      - "8080:8080"
     networks:
-      - xwiki-nw
+      - xwiki-bridge
