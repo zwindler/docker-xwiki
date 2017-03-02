@@ -8,7 +8,7 @@ The goal of this project is to provide a customized tomcat8 container for Xwiki 
 
 ### Build dependancies
 
-This project uses Docker, containers, XWiki war file and JDBC driver (available from the Internet). This XWiki setup is preconfigured to use a PostgreSQL database, preferably from a docker container as well.
+This project uses Docker, containers, the XWiki in its "war file" form and the latest postgreSQL JDBC driver (available from the Internet). So this XWiki setup is preconfigured to use a PostgreSQL database, preferably from a docker container as well.
 
 ### Run dependancies
 
@@ -21,15 +21,17 @@ To install, you have two solutions
 ### Using Docker only
 
   * (optional) `docker build -t zwindler/xwiki-tomcat8:latest .` #Only if you get it from source
-  * `docker network create -d bridge xwiki-nw`
-  * `docker run --net=xwiki-nw -itd --name xwiki-postgres -e POSTGRES_DB=xwiki -e POSTGRES_USER=xwiki -e POSTGRES_PASSWORD=xwiki postgres`
-  * `docker run --net=xwiki-nw -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat8`
+  * `docker network create -d bridge xwiki-bridge`
+  * `docker run --net=xwiki-bridge -itd --name xwiki-postgres -e POSTGRES_DB=xwiki -e POSTGRES_USER=xwiki -e POSTGRES_PASSWORD=xwiki postgres`
+  * `docker run --net=xwiki-bridge -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat8`
 				
 ### Using Docker-Compose
 
-YAML docker-compose file is provided in the github repository. This automated all the previous commands
+YAML docker-compose file is provided in the github repository. This automated all the previous commands. You can modify the docker-compose.yml file to change variables like container names or (more importantly) usernames and passwords.
 
   * `docker-compose up -d`
+
+Note : Future releases will include a .env file to set your variables (more convenient).
 
 ### Variables at run time
 
