@@ -14,4 +14,5 @@ if [ -f META-INF/extension.xed ]; then
   sed -i "s/<id>org.xwiki.enterprise:xwiki-enterprise-web/<id>org.xwiki.enterprise:xwiki-enterprise-docker-zwindler/" META-INF/extension.xed
 fi
 
+cd /usr/local/tomcat
 bin/catalina.sh run

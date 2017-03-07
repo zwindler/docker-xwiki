@@ -57,3 +57,9 @@ You can now customise your image by building it with the following variables :
 
   * `XWIKI_VERSION` : you can set the version downloaded during docker image build. Ex : `9.1-rc-1`
   * `PGSQL_JDBC_VERSION` : you can set the version downloaded during docker image build. Ex : `postgresql-42.0.0`
+
+Example : 
+
+`docker build --build-arg XWIKI_VERSION=7.4.4 -t zwindler/xwiki-tomcat8:7.4.4 .
+docker run --net=xwiki-bridge -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat8:7.4.4`
+
