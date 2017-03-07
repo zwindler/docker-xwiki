@@ -2,8 +2,10 @@ FROM tomcat:8-jre8
 MAINTAINER Denis GERMAIN <dt.germain@gmail.com> 
 ENV POSTGRES_INSTANCE=xwiki-pgsql POSTGRES_PORT=5432 \
     POSTGRES_DB=xwiki POSTGRES_USER=xwiki \
-    POSTGRES_PASSWORD=xwiki XWIKI_VERSION=9.0 \
-    PGSQL_JDBC_VERSION=postgresql-42.0.0
+    POSTGRES_PASSWORD=xwiki
+
+ARG XWIKI_VERSION=9.0
+ARG PGSQL_JDBC_VERSION=postgresql-42.0.0
 
 COPY setenv.sh bin/setenv.sh
 COPY xwiki-tomcat-entrypoint.sh /
