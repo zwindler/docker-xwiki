@@ -5,6 +5,7 @@ ENV POSTGRES_INSTANCE=xwiki-pgsql POSTGRES_PORT=5432 \
     POSTGRES_PASSWORD=xwiki
 
 ARG XWIKI_VERSION=9.3
+ARG XAR_PREFIX="xwiki-enterprise-web"
 ARG PGSQL_JDBC_VERSION=postgresql-42.0.0
 
 COPY setenv.sh bin/setenv.sh
@@ -14,7 +15,7 @@ RUN sed -i "s/redirectPort=\"8443\" /redirectPort=\"8443\" URIEncoding=\"UTF-8\"
 
 RUN rm -rf webapps/* && \
     curl -L \
-      "http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-${XWIKI_VERSION}.war" \
+      "http://download.forge.ow2.org/xwiki/${XAR_PREFIX}-${XWIKI_VERSION}.war" \
        -o xwiki.war && \
     unzip -d webapps/ROOT xwiki.war && \
     rm -f xwiki.war
