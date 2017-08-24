@@ -29,7 +29,9 @@ To install, you have two solutions
 
 YAML docker-compose file is provided in the github repository. This automated all the previous commands. You can modify the docker-compose.yml file to change variables like container names or (more importantly) usernames and passwords.
 
-  * `docker-compose up -d`
+  * In detached mode `docker-compose -f compose/docker-compose.yml up -d`
+  * To see the logs from both containers in current terminal `docker-compose -f compose/docker-compose.yml up`
+  * To build image from compose ` docker-compose -f compose/docker-compose.yml build`  
 
 Note : Future releases will include a .env file to set your variables (more convenient).
 
