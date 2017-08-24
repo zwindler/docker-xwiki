@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: xwiki-app
+  labels:
+    app: xwiki-app
+    application: xwiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xwiki-app
+      application: xwiki
+  template:
+    metadata:
+      labels:
+        app: xwiki-app
+        application: xwiki
+      name: xwiki-app
+    spec:
+      containers:
+      - image: zwindler/xwiki-tomcat8
+        name: xwiki-app
+        env:
+        - name: POSTGRES_INSTANCE
+          value: xwiki-pg-svc
+        - name: POSTGRES_DB
+          value: xwiki
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: password
+        ports:
+          - containerPort: 8080
+            name: tomcat-port
+        volumeMounts:
+            - name: xwiki-app-storage
+              mountPath: /usr/local/tomcat/work/xwiki
+      volumes:
+          - name: xwiki-app-storage
+            persistentVolumeClaim:
+              claimName: gluster-pvc-xwiki-app

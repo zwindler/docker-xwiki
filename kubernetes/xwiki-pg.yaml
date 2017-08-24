@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: xwiki-pg
+  labels:
+    app: xwiki-pg
+    application: xwiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xwiki-pg
+      application: xwiki
+  template:
+    metadata:
+      labels:
+        app: xwiki-pg
+        application: xwiki
+      name: xwiki-pg
+    spec:
+      containers:
+      - image: postgres:9.6
+        name: xwiki-pg
+        env:
+        - name: POSTGRES_DB
+          value: xwiki
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: password
+        ports:
+            - containerPort: 5432
+              name: xwiki-pg
+        volumeMounts:
+            - name: xwiki-pg-storage
+              mountPath: /var/lib/postgresql/data/pgdata
+      volumes:
+          - name: xwiki-pg-storage
+            persistentVolumeClaim:
+              claimName: gluster-pvc-xwiki-pg

@@ -1,0 +1,177 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gluster-pv-xwiki-pg
+spec:
+  capacity:
+    storage: 5Gi     
+  accessModes:
+  - ReadWriteMany    
+  glusterfs:         
+    endpoints: gluster-cluster 
+    path: /xwiki-pg-storage
+    readOnly: false
+  persistentVolumeReclaimPolicy: Retain 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gluster-pv-xwiki-app
+spec:
+  capacity:
+    storage: 5Gi     
+  accessModes:
+  - ReadWriteMany    
+  glusterfs:         
+    endpoints: gluster-cluster 
+    path: /xwiki-app-storage
+    readOnly: false
+  persistentVolumeReclaimPolicy: Retain 
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: xwiki-pg
+  labels:
+    app: xwiki-pg
+    application: xwiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xwiki-pg
+      application: xwiki
+  template:
+    metadata:
+      labels:
+        app: xwiki-pg
+        application: xwiki
+      name: xwiki-pg
+    spec:
+      containers:
+      - image: postgres:9.6
+        name: xwiki-pg
+        env:
+        - name: POSTGRES_DB
+          value: xwiki
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: password
+        ports:
+            - containerPort: 5432
+              name: xwiki-pg
+        volumeMounts:
+            - name: xwiki-pg-storage
+              mountPath: /var/lib/postgresql/data/pgdata
+      volumes:
+          - name: xwiki-pg-storage
+            persistentVolumeClaim:
+              claimName: gluster-pvc-xwiki-pg
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gluster-pvc-xwiki-pg
+spec:
+  accessModes:
+    - ReadWriteMany    
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xwiki-pg-svc
+  labels:
+    app: xwiki-pg
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+  selector:
+    app: xwiki-pg
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: xwiki-app
+  labels:
+    app: xwiki-app
+    application: xwiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xwiki-app
+      application: xwiki
+  template:
+    metadata:
+      labels:
+        app: xwiki-app
+        application: xwiki
+      name: xwiki-app
+    spec:
+      containers:
+      - image: zwindler/xwiki-tomcat8
+        name: xwiki-app
+        env:
+        - name: POSTGRES_INSTANCE
+          value: xwiki-pg-svc
+        - name: POSTGRES_DB
+          value: xwiki
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-xwiki-user-password
+              key: password
+        ports:
+          - containerPort: 8080
+            name: tomcat-port
+        volumeMounts:
+            - name: xwiki-app-storage
+              mountPath: /usr/local/tomcat/work/xwiki
+      volumes:
+          - name: xwiki-app-storage
+            persistentVolumeClaim:
+              claimName: gluster-pvc-xwiki-app
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gluster-pvc-xwiki-app
+spec:
+  accessModes:
+    - ReadWriteMany    
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xwiki-app-svc
+  labels:
+    apps: xwiki-app
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: tomcat-port
+    protocol: TCP
+  selector:
+    app: xwiki-app

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gluster-pv-xwiki-pg
+spec:
+  capacity:
+    storage: 5Gi     
+  accessModes:
+  - ReadWriteMany    
+  glusterfs:         
+    endpoints: gluster-cluster 
+    path: /xwiki-pg-storage
+    readOnly: false
+  persistentVolumeReclaimPolicy: Retain 
