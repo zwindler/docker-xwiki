@@ -15,7 +15,7 @@ services:
       - xwiki-bridge
     stdin_open: true
     tty: true
-    restart: always
+    restart: unless-stopped
   xwiki-tomcat:
     build: ../
     image: xwiki-tomcat
@@ -29,3 +29,4 @@ services:
      - "8080:8080"
     networks:
       - xwiki-bridge
+    restart: unless-stopped
