@@ -4,7 +4,7 @@ ENV POSTGRES_INSTANCE=xwiki-pgsql POSTGRES_PORT=5432 \
     POSTGRES_DB=xwiki POSTGRES_USER=xwiki \
     POSTGRES_PASSWORD=xwiki
 
-ARG XWIKI_VERSION=9.5.1
+ARG XWIKI_VERSION=10.3
 #"xwiki-enterprise-web" before 9.4, "xwiki" now
 ARG XAR_PREFIX="xwiki"
 ARG PGSQL_JDBC_VERSION=postgresql-42.0.0
