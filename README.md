@@ -1,3 +1,6 @@
+OBSOLETE : don't use this project / image, there are official docker images provided by XWiki team
+
+
 ## Introduction
 
 The goal of this project is to provide a customized tomcat10 container for XWiki (KMDB) in Docker containers
