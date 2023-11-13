@@ -1,4 +1,4 @@
-OBSOLETE : don't use this project / image, there are official docker images provided by XWiki team
+# OBSOLETE : don't use this project / image, there are official docker images provided by XWiki team
 
 
 ## Introduction
