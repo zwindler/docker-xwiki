@@ -1,8 +1,6 @@
 ## Introduction
 
-The goal of this project is to provide a customized tomcat8 container for Xwiki (KMDB) in Docker containers
-
-[![](https://images.microbadger.com/badges/version/zwindler/xwiki-tomcat8.svg)](http://microbadger.com/images/zwindler/xwiki-tomcat8) [![](https://images.microbadger.com/badges/image/zwindler/xwiki-tomcat8.svg)](http://microbadger.com/images/zwindler/xwiki-tomcat8)
+The goal of this project is to provide a customized tomcat10 container for XWiki (KMDB) in Docker containers
 
 ## Prerequisite 
 
@@ -20,10 +18,10 @@ To install, you have two solutions
 
 ### Using Docker only
 
-  * (optional) `docker build -t zwindler/xwiki-tomcat8:latest .` #Only if you get it from source
+  * (optional) `docker build -t zwindler/xwiki-tomcat9:latest .` #Only if you get it from source
   * `docker network create -d bridge xwiki-bridge`
   * `docker run --net=xwiki-bridge -itd --name xwiki-postgres -e POSTGRES_DB=xwiki -e POSTGRES_USER=xwiki -e POSTGRES_PASSWORD=xwiki postgres`
-  * `docker run --net=xwiki-bridge -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat8`
+  * `docker run --net=xwiki-bridge -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat9`
 				
 ### Using Docker-Compose
 
@@ -62,6 +60,5 @@ You can now customise your image by building it with the following variables :
 
 Example : 
 
-`docker build --build-arg XWIKI_VERSION=7.4.4 -t zwindler/xwiki-tomcat8:7.4.4 .
-docker run --net=xwiki-bridge -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat8:7.4.4`
-
+`docker build --build-arg XWIKI_VERSION=7.4.4 -t zwindler/xwiki-tomcat9:7.4.4 .
+docker run --net=xwiki-bridge -itd --name xwiki-tomcat -p 8080:8080 -e POSTGRES_INSTANCE=xwiki-postgres zwindler/xwiki-tomcat9:7.4.4`

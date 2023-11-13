@@ -1,7 +1,7 @@
 build:
-	docker build -t zwindler/xwiki-tomcat8:latest .
+	docker build -t zwindler/xwiki-tomcat9:latest .
 
-compose:
+dockercompose:
 	docker-compose -f compose/docker-compose.yml up -d
 
 bridge:
